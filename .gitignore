@@ -1,0 +1,24 @@
+# Build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Publish
+publish/
+
+# Logs
+*.log
+
+# App settings sensibles
+appsettings.Development.json
+
+# Node (por si acaso frontend)
+node_modules/
+
+# Otros
+.DS_Store
+Thumbs.db

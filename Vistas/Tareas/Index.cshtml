@@ -1,0 +1,97 @@
+@model List<Tarea>
+@{
+    ViewData["Title"] = "Tareas";
+}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Gestión de Tareas</h2>
+        <p class="text-muted mb-0">Administra tus tareas personales de forma simple y ordenada.</p>
+    </div>
+    <a class="btn btn-primario" asp-action="Crear">Nueva tarea</a>
+</div>
+
+@if (TempData["Mensaje"] is not null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+<div class="card border-0 sombra-suave">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="encabezado-tabla">
+                    <tr>
+                        <th>Título</th>
+                        <th>Prioridad</th>
+                        <th>Fecha límite</th>
+                        <th>Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5" class="text-center py-4">No hay tareas registradas.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var tarea in Model)
+                    {
+                        var claseEstado = tarea.Completada ? "estado-completada" : tarea.EstaVencida ? "estado-vencida" : "estado-pendiente";
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">@tarea.Titulo</div>
+                                @if (!string.IsNullOrWhiteSpace(tarea.Descripcion))
+                                {
+                                    <div class="text-muted small">@tarea.Descripcion</div>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge @ObtenerClasePrioridad(tarea.Prioridad)">@tarea.Prioridad</span>
+                            </td>
+                            <td>@(tarea.FechaLimite?.ToString("dd/MM/yyyy") ?? "Sin fecha")</td>
+                            <td>
+                                <span class="badge @claseEstado">
+                                    @(tarea.Completada ? "Completada" : tarea.EstaVencida ? "Vencida" : "Pendiente")
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                    <a class="btn btn-sm btn-outline-primary" asp-action="Editar" asp-route-id="@tarea.TareaID">Editar</a>
+
+                                    <form asp-action="CambiarEstado" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@tarea.TareaID" />
+                                        <button type="submit" class="btn btn-sm btn-outline-success">
+                                            @(tarea.Completada ? "Marcar pendiente" : "Completar")
+                                        </button>
+                                    </form>
+
+                                    <form asp-action="Eliminar" method="post" class="d-inline" onsubmit="return confirm('¿Deseas eliminar esta tarea?');">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@tarea.TareaID" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@functions {
+    private static string ObtenerClasePrioridad(string prioridad) =>
+        prioridad switch
+        {
+            "Alta" => "prioridad-alta",
+            "Media" => "prioridad-media",
+            _ => "prioridad-baja"
+        };
+}

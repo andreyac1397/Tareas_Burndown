@@ -1,0 +1,57 @@
+@model Tarea
+@{
+    ViewData["Title"] = "Editar tarea";
+}
+
+<div class="formulario-contenedor">
+    <h2 class="fw-bold mb-3">Editar tarea</h2>
+    <form asp-action="Editar" method="post" class="row g-3">
+        @Html.AntiForgeryToken()
+        <input asp-for="TareaID" type="hidden" />
+        <input asp-for="FechaCreacion" type="hidden" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-12">
+            <label asp-for="Titulo" class="form-label"></label>
+            <input asp-for="Titulo" class="form-control" />
+            <span asp-validation-for="Titulo" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Descripcion" class="form-label"></label>
+            <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Prioridad" class="form-label"></label>
+            <select asp-for="Prioridad" class="form-select">
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="FechaLimite" class="form-label">Fecha límite</label>
+            <input asp-for="FechaLimite" class="form-control" type="date" />
+        </div>
+
+        <div class="col-md-4 d-flex align-items-end">
+            <div class="form-check">
+                <input asp-for="Completada" class="form-check-input" />
+                <label asp-for="Completada" class="form-check-label">Completada</label>
+            </div>
+        </div>
+
+        <div class="col-12 d-flex gap-2">
+            <button type="submit" class="btn btn-primario">Actualizar</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

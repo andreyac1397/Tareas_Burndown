@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="hero-principal text-center p-5 mb-4">
+    <h1 class="display-6 fw-bold">Sistema de Gestión de Tareas con SCRUM</h1>
+    <p class="lead mt-3">
+        Proyecto web sencillo para administrar tareas personales y mostrar el Burndown Chart del sprint.
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+        <a class="btn btn-primario" asp-controller="Tareas" asp-action="Index">Ir a Tareas</a>
+        <a class="btn btn-secundario" asp-controller="Burndown" asp-action="Index">Ver Burndown</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="tarjeta-info h-100">
+            <h3>¿Qué hace el sistema?</h3>
+            <ul class="mb-0">
+                <li>Crear tareas</li>
+                <li>Editar y eliminar tareas</li>
+                <li>Marcar tareas como completadas</li>
+                <li>Asignar prioridad y fecha límite</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="tarjeta-info h-100">
+            <h3>¿Qué muestra el Burndown?</h3>
+            <ul class="mb-0">
+                <li>Seguimiento del sprint actual</li>
+                <li>Línea ideal</li>
+                <li>Línea real</li>
+                <li>Avance del equipo en el proyecto</li>
+            </ul>
+        </div>
+    </div>
+</div>

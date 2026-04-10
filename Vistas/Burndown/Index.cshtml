@@ -1,0 +1,65 @@
+@model List<PuntoBurndown>
+@{
+    ViewData["Title"] = "Burndown";
+    var datosBurndown = ViewBag.DatosBurndown as string ?? "[]";
+}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Burndown Chart - Sprint 2</h2>
+        <p class="text-muted mb-0">El gráfico se genera leyendo el archivo Excel del sprint.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-8">
+        <div class="card border-0 sombra-suave p-3">
+            <h5 class="fw-bold mb-3">Progreso del Sprint</h5>
+            <div style="height: 400px; width: 100%;">
+                <canvas id="graficoBurndown"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card border-0 sombra-suave">
+            <div class="card-body">
+                <h5 class="fw-bold mb-3">Detalle de puntos</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Día</th>
+                                <th>Ideal</th>
+                                <th>Real</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var punto in Model)
+                            {
+                                <tr>
+                                    <td>@punto.Dia</td>
+                                    <td>@punto.Ideal</td>
+                                    <td>@punto.Real</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <p class="small text-muted mb-0">
+                    Archivo fuente: <code>Datos/Burndown/burndown.xlsx</code>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        window.datosBurndown = @Html.Raw(datosBurndown);
+    </script>
+    <script src="~/js/burndown.js" asp-append-version="true"></script>
+}
